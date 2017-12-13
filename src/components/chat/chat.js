@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import {Launcher} from 'react-chat-window';
+import Message from './message';
 
+// Name : Leong Yok Tien
+//
 export default class Chat extends Component {
 
   constructor() {
@@ -8,6 +11,13 @@ export default class Chat extends Component {
     this.state = {
       messageList: []
     };
+  }
+  componentDidMount(){
+    let m = new Message();
+    let data = m.getAll();
+    this.setState({
+      messageList : [...this.state.messageList, ...data]
+    })
   }
 
   _onMessageWasSent(message) {
@@ -20,7 +30,7 @@ export default class Chat extends Component {
     if (text.length > 0) {
       this.setState({
         messageList: [...this.state.messageList, {
-          author: 'them',
+          author: 'pp',
           type: 'text',
           data: { text }
         }]
@@ -32,8 +42,8 @@ export default class Chat extends Component {
     return (<div>
       <Launcher
         agentProfile={{
-          teamName: 'react-live-chat',
-          imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
+          teamName: 'Leong Yok Tien',
+          imageUrl: require('../../assets/userProfile1_tn.jpg')
         }}
         onMessageWasSent={this._onMessageWasSent.bind(this)}
         messageList={this.state.messageList}
