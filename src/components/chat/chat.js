@@ -15,14 +15,25 @@ export default class Chat extends Component {
   }
   componentWillMount(){
     this.message.getAll((data)=>{
+      let m = this.getNewMessages(data);
       this.setState({
-        messageList : [...this.state.messageList,...data]
+        messageList : [...this.state.messageList,...m]
       })
+    });
+  }
+  getNewMessages(messages = []){
+    return messages.filter(m=>{
+      if(this.state.messageList
+        .find(sm => 
+            sm.author === m.author && 
+            sm.data.text === m.data.text )){
+              return false;
+      }
+      return true;
     });
   }
 
   _onMessageWasSent(message) {
-    console.log(message);
     this.message.save(message);
     this.setState({
       messageList: [...this.state.messageList, message]
