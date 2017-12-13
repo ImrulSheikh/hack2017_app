@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Launcher} from '../../src'
+import {Launcher} from 'react-chat-window';
 
 export default class Chat extends Component {
 
