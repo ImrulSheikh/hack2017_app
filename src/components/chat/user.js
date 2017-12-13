@@ -1,11 +1,13 @@
 
 let users = [{
     id: 1,
-    name: 'Leong Yok Tien',
+    userName: 'leong',
+    fullName: 'Leong Yok Tien',
     tn: require('../../assets/userProfile1_tn.jpg')
 },{
     id: 2,
-    name: 'Imrul Hasan',
+    fullName: 'Imrul Hasan',
+    userName: 'imrul',
     tn: require('../../assets/userProfile2_tn.jpg')   
 }]
 

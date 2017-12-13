@@ -12,12 +12,14 @@ export default class Chat extends Component {
       messageList: []
     };
   }
-  componentDidMount(){
-    let m = new Message();
-    let data = m.getAll();
-    this.setState({
-      messageList : [...this.state.messageList, ...data]
-    })
+  componentWillMount(){
+    let m = new Message(this.state.user);
+    let that = this;
+    m.getAll((data)=>{
+      this.setState({
+        messageList : [...this.state.messageList,...data]
+      })
+    });
   }
 
   _onMessageWasSent(message) {
@@ -42,7 +44,7 @@ export default class Chat extends Component {
     return (<div>
       <Launcher
         agentProfile={{
-          teamName: this.state.user.name,
+          teamName: this.state.user.fullName,
           imageUrl: this.state.user.tn
         }}
         onMessageWasSent={this._onMessageWasSent.bind(this)}
