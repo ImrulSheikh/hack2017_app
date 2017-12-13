@@ -5,15 +5,15 @@ export default class Message {
         this.firebase = initialize();
         this.user = user;
     }
-    getDbRef(){
+    getDbRef() {
         return this.firebase.database().ref('messages/');
     }
     getAll(callback) {
         this.getDbRef()
-        .orderByKey()
-        .on('value', (snapshot)=>{
-            callback(this.transform(snapshot.val()));
-        });
+            .orderByKey()
+            .on('value', (snapshot) => {
+                callback(this.transform(snapshot.val()));
+            });
 
 
         // return [
@@ -22,16 +22,30 @@ export default class Message {
         //     { type: 'text', author: "me", data: { text: "Salsa is now the number one condiment in America." } },
         // ];
     }
-    transform(data = []){
-        return data.filter(e=> typeof e === 'object').map(e =>{
-            return {
-                type: 'text', 
-                author: e.author === this.user.userName ? 'me' : 'them' ,
-                data: { 
-                    text: e.text 
-                }
+    save(message) {
+        let newMessage = this.getDbRef().push();
+        newMessage.set(this.reverseTransform(message))
+    }
+    reverseTransform(m) {
+        return {
+            author: this.user.userName,
+            text: m.data.text
+        };
+    }
+    transform(data = []) {
+        let formatedData = [];
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const e = data[key];
+                formatedData.push({
+                    type: 'text',
+                    author: e.author === this.user.userName ? 'me' : 'them',
+                    data: {
+                        text: e.text
+                    }
+                });
             }
-        })
+        }
+        return formatedData;
     }
 };
-

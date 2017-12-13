@@ -11,11 +11,10 @@ export default class Chat extends Component {
       user: getUser(props.userId),
       messageList: []
     };
+    this.message = new Message(this.state.user);
   }
   componentWillMount(){
-    let m = new Message(this.state.user);
-    let that = this;
-    m.getAll((data)=>{
+    this.message.getAll((data)=>{
       this.setState({
         messageList : [...this.state.messageList,...data]
       })
@@ -23,21 +22,11 @@ export default class Chat extends Component {
   }
 
   _onMessageWasSent(message) {
+    console.log(message);
+    this.message.save(message);
     this.setState({
       messageList: [...this.state.messageList, message]
     })
-  }
-
-  _sendMessage(text) {
-    if (text.length > 0) {
-      this.setState({
-        messageList: [...this.state.messageList, {
-          author: 'pp',
-          type: 'text',
-          data: { text }
-        }]
-      })
-    }
   }
 
   render() {
