@@ -1,14 +1,14 @@
 import React, {Component} from 'react'
 import {Launcher} from 'react-chat-window';
 import Message from './message';
+import getUser from './user';
 
-// Name : Leong Yok Tien
-//
 export default class Chat extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
+      user: getUser(props.userId),
       messageList: []
     };
   }
@@ -42,8 +42,8 @@ export default class Chat extends Component {
     return (<div>
       <Launcher
         agentProfile={{
-          teamName: 'Leong Yok Tien',
-          imageUrl: require('../../assets/userProfile1_tn.jpg')
+          teamName: this.state.user.name,
+          imageUrl: this.state.user.tn
         }}
         onMessageWasSent={this._onMessageWasSent.bind(this)}
         messageList={this.state.messageList}
